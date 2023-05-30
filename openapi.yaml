@@ -1,0 +1,186 @@
+openapi: 3.0.1
+
+info:
+  title: To Do Plugin API
+  version: 1.0.0
+  description: A plugin that allows the user to create and manage a To Do list using ChatGPT.
+
+paths:
+  /todos:
+    get:
+      operationId: getTodos
+      summary: Get the list of todos
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getTodosResponse"
+
+    post:
+      operationId: addTodo
+      summary: Add a new todo to the list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addTodoRequest"
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/todo"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+  /todos/{id}:
+    get:
+      summary: Get a todo by id from the list
+      operationId: getTodoById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/todo"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+    put:
+      summary: Update a todo by id from the list
+      operationId: updateTodo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateTodoRequest"
+      responses:
+        "200":
+          description: Successfull response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/todo"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+    delete:
+      summary: Delete a todo by id from the list
+      operationId: deleteTodo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+components:
+  schemas:
+    todo:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        completed:
+          type: boolean
+      required:
+        - id
+        - title
+        - completed
+
+    getTodosResponse:
+      type: object
+      properties:
+        todos:
+          type: array
+          description: The list of todos
+          items:
+            $ref: "#/components/schemas/todo"
+
+    addTodoRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the todo to add to the list
+          required: true
+      required:
+        - title
+
+    updateTodoRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the todo to add to the list
+        completed:
+          type: boolean
+          description: The completed status of the todo
+      required:
+        - title
+
+    error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The error message to display
+          required: true
