@@ -16,4 +16,13 @@ To run the plugin, run the following command:
 pnpm start
 ```
 
-Once the plugin is running, you can add it to your ChatGPT workspace by going to the "Plugins" tab and clicking "Add Plugin". Then, enter the URL of the plugin, which should be `http://localhost:3000`.
+Once the plugin is running, you can add it to your ChatGPT workspace by going to the "Plugins" tab and clicking "Add Plugin". Then, enter the URL of the plugin, which should be `http://localhost:5003`.
+
+## Usage
+
+Once the plugin is installed, you can use the following prompts:
+
+- `Add a to-do item:` - Remind me to register for the blockchain hackathon.
+- `Show my to-do list:` - What's on my to-do list?
+- `Update a to-do item:` - Mark the first item on my to-do list as done.
+- `Remove a to-do item:` - Remove the first item from my to-do list.
